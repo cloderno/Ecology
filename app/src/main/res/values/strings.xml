@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Мониторинг качества воздуха</string>
+
+    <string-array name="spinner_items">
+        <item>Усть-Каменогорск</item>
+        <item>Риддер</item>
+        <item>Семей</item>
+    </string-array>
+</resources>

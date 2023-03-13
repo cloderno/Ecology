@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.IndiceActivity"
+    android:orientation="vertical"
+    android:layout_margin="15dp">
+
+    <LinearLayout
+        android:id="@+id/indice_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/indice_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"/>
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/indice_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12dp"
+                android:gravity="right"/>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/indice_element"
+            android:textSize="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/indice_color_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_margin="15dp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/indice_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"/>
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/indice_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/indice_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"/>
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/indice_effect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"/>
+        <TextView
+            android:textColor="@color/black"
+            android:text="Данные за последние 24 часа"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="14dp"/>
+    </LinearLayout>
+</LinearLayout>

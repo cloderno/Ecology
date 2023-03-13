@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/bottom_sheet_container_2"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:background="@color/white"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <!--BTN-->
+        <Button
+            android:id="@+id/selected_close_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/circle_vector"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:layout_gravity="end"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
+
+        <!--CARD-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp"
+            android:layout_margin="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/item_station_color"
+                android:padding="0dp">
+
+                <View
+                    android:id="@+id/selected_color_block"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/station_item_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_selected_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/item_station_text_color"
+                        android:textSize="10sp"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="80dp"
+                        android:layout_marginTop="6dp"
+                        tools:text="Station Name" />
+
+                    <TextView
+                        android:id="@+id/tv_selected_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/item_station_text_color"
+                        android:textSize="10sp"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="45dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        tools:text="Station City" />
+
+                    <TextView
+                        android:id="@+id/tv_selected_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/item_station_text_color"
+                        android:textSize="10sp"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="45dp"
+                        android:layout_marginBottom="6dp"
+                        tools:text="Station Address" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!--TIME-->
+        <TextView
+            android:id="@+id/selected_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Время обновления данных"
+            android:textSize="12dp"
+            android:layout_marginStart="15dp"/>
+
+        <!--GRIDVIEW-->
+        <GridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:horizontalSpacing="15dp"
+            android:verticalSpacing="15dp"
+            android:padding="15dp"/>
+    </LinearLayout>
+</FrameLayout>

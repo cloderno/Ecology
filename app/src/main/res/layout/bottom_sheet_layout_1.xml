@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/bottom_sheet_container_1"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:background="@color/white"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_stations"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="true"
+        android:paddingTop="5dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:listitem="@layout/item_station" />
+
+</FrameLayout>

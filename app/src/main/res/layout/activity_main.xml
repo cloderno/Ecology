@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_gray"
+    tools:context=".ui.MainActivity">
+
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="#FFFFFF"
+            android:layout_margin="15dp">
+
+            <Spinner
+                android:id="@+id/spinner_regions"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:popupBackground="@color/white"
+                android:tooltipText="Выберите город" />
+        </RelativeLayout>
+
+    <include
+        layout="@layout/bottom_sheet_layout_1" />
+
+    <include
+        layout="@layout/bottom_sheet_layout_2" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
