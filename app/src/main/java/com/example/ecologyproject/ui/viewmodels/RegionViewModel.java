@@ -1,4 +1,4 @@
-package com.example.ecologyproject.ui;
+package com.example.ecologyproject.ui.viewmodels;
 
 import android.util.Log;
 
@@ -27,7 +27,7 @@ public class RegionViewModel extends ViewModel {
         return regions;
     }
 
-    void loadRegions() {
+    public void loadRegions() {
         RegionService regionService = RetrofitClient.getRetrofit().create(RegionService.class);
         Call<List<Region>> call = regionService.getRegions();
         call.enqueue(new Callback<List<Region>>() {

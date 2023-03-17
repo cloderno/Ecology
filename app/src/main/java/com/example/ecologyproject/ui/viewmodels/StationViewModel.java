@@ -1,4 +1,4 @@
-package com.example.ecologyproject.ui;
+package com.example.ecologyproject.ui.viewmodels;
 
 import android.util.Log;
 
@@ -30,7 +30,7 @@ public class StationViewModel extends ViewModel {
         return stations;
     }
 
-    void loadStations() {
+    public void loadStations() {
         StationService stationService = RetrofitClient.getRetrofit().create(StationService.class);
         Call<List<Station>> call = stationService.getStations();
         call.enqueue(new Callback<List<Station>>() {

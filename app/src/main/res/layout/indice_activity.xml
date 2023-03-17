@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.IndiceActivity"
+    tools:context=".ui.activities.IndiceActivity"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:layout_margin="15dp">
+    android:padding="15dp">
 
     <LinearLayout
         android:id="@+id/indice_bg"
@@ -58,8 +59,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:textStyle="bold"/>
+
+        <include
+            layout="@layout/color_line"/>
     </LinearLayout>
 
     <LinearLayout
@@ -93,13 +99,12 @@
             android:id="@+id/indice_effect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dp"/>
-        <TextView
-            android:textColor="@color/black"
-            android:text="Данные за последние 24 часа"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
     </LinearLayout>
+    <WebView
+        android:id="@+id/webView"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp" />
 </LinearLayout>

@@ -1,36 +1,26 @@
-package com.example.ecologyproject.ui;
+package com.example.ecologyproject.ui.adapters;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecologyproject.R;
 import com.example.ecologyproject.model.Station;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.mapview.MapView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> {
-    private MapObjectCollection mapObjects;
+    private final MapObjectCollection mapObjects;
     private List<Station> stations;
     private ClickItem clickItem;
-    private MapView mapView;
+    private final MapView mapView;
 
     public StationAdapter(List<Station> stations, MapView mapView) {
         this.stations = stations;
@@ -75,7 +65,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     }
 
     public interface ClickItem {
-        public void ClickStation(Station station);
+        void ClickStation(Station station);
     }
 
     @Override

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_gray"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
 
     <com.yandex.mapkit.mapview.MapView
@@ -16,22 +16,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
-        <RelativeLayout
+        tools:layout_editor_absoluteY="0dp">
+
+        <!--        <Button-->
+        <!--            android:visibility="invisible"-->
+        <!--            android:id="@+id/btn_get_location"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@+id/spinner_relative"-->
+        <!--            android:layout_alignParentStart="true"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_marginStart="309dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:layout_marginEnd="14dp"-->
+        <!--            android:layout_marginBottom="603dp"-->
+        <!--            android:text="Button" />-->
+    </com.yandex.mapkit.mapview.MapView>
+
+    <RelativeLayout
+            android:id="@+id/spinner_relative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:background="#FFFFFF"
+            android:orientation="vertical"
             android:layout_margin="15dp">
 
             <Spinner
                 android:id="@+id/spinner_regions"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="48dp"
+                android:contentDescription="Выберите город"
                 android:layout_weight="1"
                 android:popupBackground="@color/white"
                 android:tooltipText="Выберите город" />
-        </RelativeLayout>
+    </RelativeLayout>
 
     <include
         layout="@layout/bottom_sheet_layout_1" />

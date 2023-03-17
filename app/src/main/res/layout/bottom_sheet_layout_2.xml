@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout android:id="@+id/bottom_sheet_container_2"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="400dp"
     android:background="@color/white"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <View
+        android:id="@+id/bottom_sheet_tint"
+        android:layout_width="30dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/tint"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
         <!--BTN-->
         <Button
             android:id="@+id/selected_close_btn"
@@ -47,7 +55,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="15dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -56,7 +64,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/item_station_text_color"
                         android:textSize="10sp"
-                        tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteX="16dp"
                         tools:layout_editor_absoluteY="80dp"
                         android:layout_marginTop="6dp"
@@ -68,7 +75,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/item_station_text_color"
                         android:textSize="10sp"
-                        tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteX="16dp"
                         tools:layout_editor_absoluteY="45dp"
                         android:layout_marginTop="6dp"
@@ -81,7 +87,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/item_station_text_color"
                         android:textSize="10sp"
-                        tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteX="16dp"
                         tools:layout_editor_absoluteY="45dp"
                         android:layout_marginBottom="6dp"
@@ -98,6 +103,7 @@
             android:layout_height="wrap_content"
             android:text="Время обновления данных"
             android:textSize="12dp"
+            android:textColor="@color/black"
             android:layout_marginStart="15dp"/>
 
         <!--GRIDVIEW-->
@@ -108,6 +114,6 @@
             android:numColumns="3"
             android:horizontalSpacing="15dp"
             android:verticalSpacing="15dp"
-            android:padding="15dp"/>
+            android:padding="15dp" />
     </LinearLayout>
 </FrameLayout>

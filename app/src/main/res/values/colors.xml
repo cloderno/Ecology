@@ -9,10 +9,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#B92116</color>
     <color name="light_gray">#ecf0f1</color>
-    <color name="tint_color">#161110</color>
+<!--    <color name="tint_color">#161110</color>-->
     <color name="item_station_text_color">#07080d</color>
     <color name="item_station_color">#eff2f7</color>
-    <color name="pull_line_color">#b3b3b3</color>
     <color name="station_item_color">#000000</color>
+    <color name="tint_color">#b3b3b3</color>
     <color name="blue_header">#42a2ff</color>
+
+    <color name="green">#00FF00</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="orange">#FFA500</color>
+    <color name="red">#FF0909</color>
 </resources>

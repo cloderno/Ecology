@@ -1,4 +1,4 @@
-package com.example.ecologyproject.ui;
+package com.example.ecologyproject.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -20,7 +20,7 @@ import com.example.ecologyproject.model.Station;
 import java.util.List;
 
 public class GridAdapter extends ArrayAdapter<Indice> {
-    private List<Indice> indices;
+    private final List<Indice> indices;
 
     public GridAdapter(Context context, List<Indice> indices) {
         super(context, 0, indices);

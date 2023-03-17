@@ -3,13 +3,13 @@
     android:id="@+id/grid_item_color"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="75dp"
     android:orientation="vertical"
     android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="5dp">
 
@@ -21,7 +21,8 @@
             android:textSize="12dp"
             android:textStyle="bold"
             android:layout_weight="1"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/grid_value"
@@ -30,16 +31,23 @@
             android:text="grid_value"
             android:textSize="12dp"
             android:gravity="right"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/grid_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:maxLines="3"
         android:text="grid_name"
+        android:gravity="bottom"
+        android:layout_weight="1"
+        android:textColor="@color/black"
         android:textSize="12dp"/>
-
+    </LinearLayout>
 </LinearLayout>
 

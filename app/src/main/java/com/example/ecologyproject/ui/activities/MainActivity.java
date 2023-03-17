@@ -1,18 +1,28 @@
-package com.example.ecologyproject.ui;
+package com.example.ecologyproject.ui.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -21,12 +31,15 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ecologyproject.R;
 import com.example.ecologyproject.model.Indice;
 import com.example.ecologyproject.model.Region;
 import com.example.ecologyproject.model.Station;
+import com.example.ecologyproject.ui.adapters.GridAdapter;
+import com.example.ecologyproject.ui.adapters.StationAdapter;
+import com.example.ecologyproject.ui.viewmodels.RegionViewModel;
+import com.example.ecologyproject.ui.viewmodels.StationViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import com.yandex.mapkit.Animation;
@@ -37,36 +50,34 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.MapObjectTapListener;
+import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements StationAdapter.ClickItem {
+    private final String MAPKIT_API_KEY = "23f328ba-362d-4610-9409-17833540a05e";
+    private final Point TARGET_LOCATION = new Point(49.956987, 82.592091);
+
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private Button buttonGetLocation;
     private RecyclerView rvStations;
     private StationAdapter adapter;
     private StationViewModel stationViewModel;
     private List<Station> filteredStations;
     private RegionViewModel regionViewModel;
-
     private MapView mapView;
     private MapObjectCollection mapObjects;
-    private final String MAPKIT_API_KEY = "23f328ba-362d-4610-9409-17833540a05e";
-    private final Point TARGET_LOCATION = new Point(49.956987, 82.592091);
-
     private Spinner spRegion;
-
     private Button btnClose;
     private GridView gridView;
-
     private ArrayAdapter<String> regionAdapter;
-
-    private BottomSheetBehavior<View> bottomSheetBehavior1;
-    private BottomSheetBehavior<View> bottomSheetBehavior2;
+    private BottomSheetBehavior<View> bottomSheetBehavior1, bottomSheetBehavior2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +87,10 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initMapView();
-        initSpinner();
-        initSheet();
-        initRecyclerView();
-        initViewModels();
+        // Инициализация компонентов
+        initUI();
 
-        btnClose = (Button) findViewById(R.id.selected_close_btn);
+        btnClose = findViewById(R.id.selected_close_btn);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,40 +100,46 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
         });
     }
 
-    // Инициализация карт от яндекса
+    private void initUI() {
+        // Задаем цвет шапки
+        setBarColor();
+
+        // Инициализация карт от яндекса
+        initMapView();
+
+        // Инизиализация компонента спиннер, получаем данные из Api, RegionService
+        initSpinner();
+
+        // Инициализация bottomSheet
+        initSheet();
+
+        // Инициализация RecyclerView
+        initRecyclerView();
+
+        // Инициализация StationViewModels
+        initViewModels();
+    }
+
+    private void setBarColor() {
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue_header));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue_header)));
+    }
+
     private void initMapView() {
         mapView = findViewById(R.id.mapview);
 
-        mapView.getMap().move(new CameraPosition(TARGET_LOCATION, 14.0f, 0.0f, 0.0f), new Animation(Animation.Type.SMOOTH, 2), null);
+        mapView.getMap().move(new CameraPosition(TARGET_LOCATION, 14.0f, 0.0f, 0.0f), new Animation(Animation.Type.SMOOTH, 0.2F), null);
 
         mapObjects = mapView.getMap().getMapObjects().addCollection();
     }
 
-    // Инизиализация компонента спиннер, получаем данные из Api, RegionService и заполняем спиннер
+
     private void initSpinner() {
         spRegion = findViewById(R.id.spinner_regions);
-
-        //change spinner text style
-        regionAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, new ArrayList<String>()){
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextSize(12);
-                return view;
-            }
-
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextSize(12);
-                textView.setPadding(30,30,30,30);
-                return view;
-            }
-        };
-        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        regionAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, new ArrayList<>());
+        regionAdapter.setDropDownViewResource(R.layout.dropdown_layout);
         spRegion.setAdapter(regionAdapter);
 
         regionViewModel = new ViewModelProvider(this).get(RegionViewModel.class);
@@ -135,14 +149,12 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
                 updateSpinner(regions);
             }
         });
-
         regionViewModel.loadRegions();
-
 
         spRegion.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                loadStations();
+                stationViewModel.loadStations();
 
                 bottomSheetBehavior2.setState(BottomSheetBehavior.STATE_HIDDEN);
                 bottomSheetBehavior1.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -156,8 +168,10 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
         });
     }
 
+    // Получаем данные из API и вставляем их в spinner
     private void updateSpinner(List<Region> regions) {
         List<String> regionNames = new ArrayList<>();
+
         for (Region region : regions) {
             regionNames.add(region.getName());
         }
@@ -166,11 +180,6 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
         regionAdapter.addAll(regionNames);
     }
 
-    private void loadStations() {
-        stationViewModel.loadStations();
-    }
-
-    // Инициализация bottomSheet
     private void initSheet() {
         FrameLayout frameLayout1 = findViewById(R.id.bottom_sheet_container_1);
         FrameLayout frameLayout2 = findViewById(R.id.bottom_sheet_container_2);
@@ -186,6 +195,39 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
 
         bottomSheetBehavior1.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior2.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        // отключение скрола в bottomsheet
+        RecyclerView rv = findViewById(R.id.rv_stations);
+        GridView gv = findViewById(R.id.grid_view);
+
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    bottomSheetBehavior1.setDraggable(false);
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    bottomSheetBehavior1.setDraggable(true);
+                }
+            }
+        });
+
+        gv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        bottomSheetBehavior2.setDraggable(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        bottomSheetBehavior2.setDraggable(true);
+                        break;
+                }
+                return false;
+            }
+        });
+
     }
 
     private void initRecyclerView() {
@@ -206,9 +248,10 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
         });
     }
 
-    // следим за обновлением stations
+    // Меняем выдаваемые станции при смене города через Spinner
+    // API выдаёт ответ в видео Шемонаихинский и Глубоковский, в другом url где данные о станциях города, мы имеем города Шемонаиха и Глубоковский
     private void updateStations(List<Station> stations) {
-        String selectedCity = spRegion.getSelectedItem().toString();
+        String selectedCity = spRegion.getSelectedItem() != null ? spRegion.getSelectedItem().toString() : "Усть-Каменогорск";
 
         if (selectedCity != null && !selectedCity.isEmpty() && stations != null && !stations.isEmpty()) {
             if (selectedCity.equals("Шемонаихинский")){
@@ -233,14 +276,43 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
     private void updateMapMarkers(List<Station> stations) {
         mapObjects.clear();
 
+        List<PointF> pointList = new ArrayList<>();
+        pointList.add(new PointF(0.4f, 0.4f));
+        pointList.add(new PointF(1.5f, 1.5f));
+
         for (Station station : stations) {
             Point point = new Point(station.getLat(), station.getLon());
-            MapObject mapObject = mapObjects.addPlacemark(
-                    point,
-                    ImageProvider.fromResource(this, R.drawable.marker)
-            );
+            MapObject mapObject = mapObjects.addPlacemark(point);
 
-            // Вызвать функцию для показа данных выбранной марки
+
+            // Меняем цвет марки на карте в зависимости от цвета
+            // yellow -#FFA800 green-45B500 orange-FF5C00 red-FF0909
+            Drawable iconDrawable = null;
+            switch (station.getColor()){
+                case "#45B500":
+                    iconDrawable = getResources().getDrawable(R.drawable.placemark_green);
+                    break;
+                case "#FFA800":
+                    iconDrawable = getResources().getDrawable(R.drawable.placemark_yellow);
+                    break;
+                case "#FF5C00":
+                    iconDrawable = getResources().getDrawable(R.drawable.placemark_orange);
+                    break;
+                case "#FF0909":
+                    iconDrawable = getResources().getDrawable(R.drawable.placemark_red);
+                    break;
+                default:
+                    iconDrawable = getResources().getDrawable(R.drawable.baseline_place_24);
+                    break;
+            }
+
+            Bitmap iconBitmap = getBitmapFromDrawable(iconDrawable);
+            ((PlacemarkMapObject) mapObject).setIcon(ImageProvider.fromBitmap(iconBitmap));
+            ((PlacemarkMapObject) mapObject).setScaleFunction(pointList);
+            mapObject.setZIndex(1.4f);
+            mapObject.setUserData(station.getName());
+
+            // Вызвать функцию для показа данных при клике на марку
             mapObject.addTapListener(new MapObjectTapListener() {
                 @Override
                 public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {
@@ -255,11 +327,30 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
                         ClickStation(filteredStation);
                     }
 
+                    mapObject.removeTapListener(this);
+                    mapObject.addTapListener(this);
+
                     return true;
                 }
             });
-            mapObject.setUserData(station.getName());
         }
+    }
+
+    // Получаем битмап чтобы можно было менять цвет
+    public static Bitmap getBitmapFromDrawable(Drawable drawable) {
+        Bitmap bitmap;
+
+        if (drawable instanceof BitmapDrawable) {
+            bitmap = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        }
+
+        return bitmap;
     }
 
     @Override
@@ -278,11 +369,11 @@ public class MainActivity extends AppCompatActivity implements StationAdapter.Cl
         mapView.onStart();
     }
 
-    // Выбор адреса
+    // Функция которая открывает новое активити и показывает данные выбранной категории
     @Override
     public void ClickStation(Station station) {
         Point point = new Point(station.getLat(), station.getLon());
-        mapView.getMap().move(new CameraPosition(point, 14.0f, 0.0f, 0.0f), new Animation(Animation.Type.SMOOTH, 2), null);
+        mapView.getMap().move(new CameraPosition(point, 14.0f, 0.0f, 0.0f), new Animation(Animation.Type.SMOOTH, 0.2F), null);
 
         TextView name = findViewById(R.id.tv_selected_name);
         TextView city = findViewById(R.id.tv_selected_city);
